@@ -28,19 +28,12 @@
             <artifactId>imgscalr-lib</artifactId>
             <version>4.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>19.0</version>
+        </dependency>
     </dependencies>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.amazonaws</groupId>
-                <artifactId>aws-java-sdk-bom</artifactId>
-                <version>1.11.22</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>
@@ -58,7 +51,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>de.martinmois.amazon.rekognition.DrawBoundingBoxes</mainClass>
+                            <mainClass>de.martinmois.amazon.rekognition.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

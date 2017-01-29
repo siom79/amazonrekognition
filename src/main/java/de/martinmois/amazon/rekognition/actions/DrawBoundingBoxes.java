@@ -1,4 +1,4 @@
-package de.martinmois.amazon.rekognition;
+package de.martinmois.amazon.rekognition.actions;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.auth.AWSCredentials;
@@ -6,13 +6,11 @@ import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.rekognition.AmazonRekognitionClient;
 import com.amazonaws.services.rekognition.model.*;
 import com.amazonaws.services.rekognition.model.Image;
-import org.imgscalr.Scalr;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.*;
@@ -21,16 +19,18 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static de.martinmois.amazon.rekognition.util.Scaling.scaleImage;
+
 public class DrawBoundingBoxes {
     private static final Logger LOGGER = Logger.getLogger(DrawBoundingBoxes.class.getName());
 
-    public static void main(String[] args) throws Exception {
+    public void run(String[] args) throws Exception {
 
-        if (args.length < 1) {
+        if (args.length < 2) {
             System.out.println("Please provide the following arguments: <path-to-image-folder>");
             return;
         }
-        String dirArg = args[0];
+        String dirArg = args[1];
         Path dirPath = Paths.get(dirArg);
         if (!Files.exists(dirPath)) {
             System.err.println("The provided directory does not exist.");
@@ -116,36 +116,5 @@ public class DrawBoundingBoxes {
         } catch (AmazonRekognitionException e) {
             LOGGER.log(Level.SEVERE, "Failed to detect faces on image '" + imagePath + "': " + e.getLocalizedMessage());
         }
-    }
-
-    private static byte[] scaleImage(Path imagePath) throws IOException {
-        BufferedImage bufferedImage = ImageIO.read(imagePath.toFile());
-        int w = bufferedImage.getWidth();
-        int h = bufferedImage.getHeight();
-        boolean landscape = true;
-        if (w < h) {
-            landscape = false;
-        }
-        boolean needScaling = false;
-        if (landscape) {
-            if (w > 1920) {
-                needScaling = true;
-            }
-        } else {
-            if (h > 1920) {
-                needScaling = false;
-            }
-        }
-        BufferedImage scaled = bufferedImage;
-        if (needScaling) {
-            if (landscape) {
-                scaled = Scalr.resize(bufferedImage, Scalr.Method.BALANCED, 1920, 1080);
-            } else {
-                scaled = Scalr.resize(bufferedImage, Scalr.Method.BALANCED, 1080, 1920);
-            }
-        }
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(scaled, "jpg", baos);
-        return baos.toByteArray();
     }
 }
