@@ -20,43 +20,43 @@ Run with:
 	java -jar target/amazon-rekognition-0.0.1-SNAPSHOT-jar-with-dependencies.jar <action> <parameter for action...>
 	
 Action must be one of the following:
-	DrawBoundingBoxes
-	IndexImageFolder
-	CreateCollection
-	DeleteCollection
-	SearchFacesByImage
+* `DrawBoundingBoxes`
+* `IndexImageFolder`
+* `CreateCollection`
+* `DeleteCollection`
+* `SearchFacesByImage`
 	
 The actions are explained in the following in more detail. After the action name you can provide the parameters
 for each action.
 
 ### DrawBoundingBoxes
 
-Parameters: <path-to-image-folder>
+Parameters: `path-to-image-folder`
 	
-Sends all images within the folder `<path-to-image-folder>` to Amazon's rekognition service to detect faces and creates 
+Sends all images within the folder `path-to-image-folder` to Amazon's rekognition service to detect faces and creates 
 for each image a new image with file ending `_withBox.jpg` with the returned bounding box drawn as red rectangle.
 
 ### CreateCollection
 
-Parameters: <collection-name>
+Parameters: `collection-name`
 
 Creates a collection with the provided name.
 
 ### IndexImageFolder
 
-Parameters: <path-to-image-folder> <collection-name>
+Parameters: `path-to-image-folder` `collection-name`
 
 Inserts all images in the provided folder structure into the given collection.
 
 ### DeleteCollection
 
-Parameters: <collection-name>
+Parameters: `collection-name`
 
 Deletes the given collection.
 
 ## SearchFacesByImage
 
-Parameters: <collection-name> <image-for-search>
+Parameters: `collection-name` `image-for-search`
 
 Searches the given collection for the provided face on the image. If the image contains more than one image, the
 largest face is used for the search.
